@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventify | Dashboard</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body class="light-theme">
+
+    <!-- Auth Container (Visible when not logged in) -->
+    <div id="auth-container" class="glass-panel">
+        <div class="auth-header">
+            <div class="logo">
+                <img src="images/logo.jpg" alt="Inventify Logo" class="brand-logo"> Inventify
+            </div>
+            <p id="auth-subtitle">Welcome back! Please login to your account.</p>
+        </div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label>Username</label>
+                <div class="input-icon">
+                    <i class="ri-user-line"></i>
+                    <input type="text" id="login-username" required placeholder="manager1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-icon">
+                    <i class="ri-lock-line"></i>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login <i class="ri-arrow-right-line"></i></button>
+            <p id="forgot-link" class="auth-switch hidden" style="margin-top:0.5rem;"><a href="#" id="show-forgot" style="color:var(--primary);"><i class="ri-lock-unlock-line"></i> Forgot Password?</a></p>
+            <p class="auth-switch">Don't have an account? <a href="#" id="show-register">Register</a></p>
+        </form>
+
+        <!-- Forgot Password Form -->
+        <div id="forgot-form" class="forgot-form hidden">
+            <div class="auth-header" style="text-align:left;display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+                <i class="ri-arrow-left-line" id="forgot-back" style="font-size:1.5rem;cursor:pointer;color:var(--text-main);"></i>
+                <h3 style="margin:0;font-size:1.3rem;font-weight:500;color:var(--text-main);">Reset Password</h3>
+            </div>
+            <!-- Step 1: Enter Email -->
+            <div id="forgot-step-1" class="step active">
+                <div class="form-group"><label>Registered Email</label><div class="input-icon"><i class="ri-mail-line"></i><input type="email" id="forgot-email" required placeholder="you@email.com"></div></div>
+                <button class="btn btn-primary btn-block" id="forgot-send-otp"><i class="ri-send-plane-line"></i> Send OTP</button>
+            </div>
+            <!-- Step 2: Verify OTP -->
+            <div id="forgot-step-2" class="step">
+                <div class="form-group"><label>Enter OTP sent to your email</label><div class="input-icon"><i class="ri-key-line"></i><input type="text" id="forgot-otp" required placeholder="4-digit OTP"></div></div>
+                <button class="btn btn-primary btn-block" id="forgot-verify-otp"><i class="ri-check-line"></i> Verify OTP</button>
+            </div>
+            <!-- Step 3: New Password -->
+            <div id="forgot-step-3" class="step">
+                <div class="form-group"><label>New Password</label><div class="input-icon"><i class="ri-lock-line"></i><input type="password" id="forgot-new-pw" required placeholder="New password" minlength="6"></div></div>
+                <div class="form-group"><label>Confirm New Password</label><div class="input-icon"><i class="ri-lock-2-line"></i><input type="password" id="forgot-confirm-pw" required placeholder="Confirm password"></div></div>
+                <button class="btn btn-primary btn-block" id="forgot-reset-btn"><i class="ri-refresh-line"></i> Reset Password</button>
+            </div>
+        </div>
+
+        <form id="register-form" class="hidden">
+            <div class="auth-header" style="text-align: left; display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <i class="ri-arrow-left-line" id="reg-back" style="font-size: 1.5rem; cursor: pointer; color: #000;"></i>
+                <h3 style="margin: 0; font-size: 1.3rem; color: #000; font-weight: 500;">Welcome To Inventify</h3>
+            </div>
+            
+            <div id="step-indicator" style="text-align: right; font-size: 0.8rem; margin-bottom: 1rem; color: var(--text-muted)">
+                Step 1 of 3
+            </div>
+
+            <h4 id="step-title" style="margin-bottom: 1.5rem; font-weight: 500; font-size: 1.1rem; color: #000;">Let's get started</h4>
+
+            <!-- Step 1: Personal Details -->
+            <div id="reg-step-1" class="reg-step">
+                <div class="form-group">
+                    <label class="plain-label">Please Enter Your Full Name</label>
+                    <input type="text" id="reg-fullname" required placeholder="First name - Middle name - Last name" class="plain-input">
+                </div>
+                <div class="form-group">
+                    <label class="plain-label">Please Enter Your Phone no.</label>
+                    <input type="text" id="reg-phone" required placeholder="Phone No." class="plain-input">
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; gap: 1rem;">
+                    <label class="plain-label" style="margin: 0;">Select Your Gender</label>
+                    <select id="reg-gender" class="plain-select" style="width: auto; min-width: 150px;">
+                        <option value="">--Select--</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" id="btn-next-1" style="background: var(--primary); box-shadow: none; border-radius: 4px; margin-top: 1rem;">Continue</button>
+            </div>
+
+            <!-- Step 2: Email & Verification -->
+            <div id="reg-step-2" class="reg-step hidden">
+                <div class="form-group">
+                    <label class="plain-label">Please Enter Your Email ID</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: stretch;">
+                        <input type="email" id="reg-email" placeholder="example@mail.com" class="plain-input" style="flex: 1;">
+                        <button type="button" class="btn btn-outline" id="btn-send-email-otp" style="border-radius: 4px; border-color: #ccc; color: #333; white-space: nowrap; padding: 0.6rem 1rem;">Send OTP</button>
+                    </div>
+                </div>
+                <div class="form-group" id="email-otp-group" style="display: none;">
+                    <label class="plain-label">Verify Email OTP</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: stretch;">
+                         <input type="text" id="reg-email-otp" placeholder="Enter 4-digit OTP" class="plain-input" style="flex: 1;">
+                         <button type="button" class="btn btn-outline" id="btn-verify-email-otp" style="border-radius: 4px; border-color: #ccc; color: #333; white-space: nowrap; padding: 0.6rem 1rem;">Verify</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" id="btn-next-2" style="background: var(--primary); box-shadow: none; border-radius: 4px; margin-top: 1rem;">Continue</button>
+            </div>
+
+            <!-- Step 3: Account Credentials -->
+            <div id="reg-step-3" class="reg-step hidden">
+                <div class="form-group">
+                    <label class="plain-label">Choose Username</label>
+                    <input type="text" id="reg-username" placeholder="Username" class="plain-input">
+                </div>
+                <div class="form-group">
+                    <label class="plain-label">Password</label>
+                    <input type="password" id="reg-password" placeholder="Password" class="plain-input">
+                </div>
+                <div class="form-group">
+                    <label class="plain-label">Confirm Password</label>
+                    <input type="password" id="reg-confirm-password" placeholder="Re-enter password" class="plain-input">
+                </div>
+                <div class="form-group">
+                    <label class="plain-label">Role</label>
+                    <select id="reg-role" class="plain-select" style="width: 100%;">
+                        <option value="MANAGER">Inventory Manager</option>
+                        <option value="STAFF">Warehouse Staff</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="btn-register-submit" style="background: var(--primary); box-shadow: none; border-radius: 4px; margin-top: 1rem;">Register</button>
+            </div>
+            
+            <p class="auth-switch" id="auth-switch-login" style="margin-top: 2rem;">Already have an account? <a href="#" id="show-login">Login</a></p>
+        </form>
+    </div>
+
+    <!-- App Container (Visible when logged in) -->
+    <div id="app-container" class="hidden">
+        
+        <!-- Top Navbar (Manager Layout) -->
+        <nav id="top-navbar" class="top-navbar glass-panel hidden">
+            <div class="top-nav-logo">
+                <img src="images/logo.jpg" alt="Inventify Logo" class="brand-logo"> Inventify
+            </div>
+            <ul class="top-nav-links">
+                <li data-view="dashboard"><i class="ri-dashboard-line"></i> Dashboard</li>
+                <li data-view="products"><i class="ri-price-tag-3-line"></i> Products</li>
+                <li data-view="orders"><i class="ri-shopping-cart-line"></i> Orders</li>
+                <li data-view="history"><i class="ri-history-line"></i> History</li>
+            </ul>
+            <div class="top-nav-profile">
+                <div class="avatar"><i class="ri-user-smile-line"></i></div>
+                <span id="top-nav-username">User</span>
+                <span id="top-nav-role" class="badge badge-primary">Role</span>
+                <button id="top-logout-btn" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;"><i class="ri-logout-box-line"></i></button>
+            </div>
+        </nav>
+
+        <!-- Sidebar Navigation (Staff Layout) -->
+        <aside id="sidebar-nav" class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="images/logo.jpg" alt="Inventify Logo" class="brand-logo"> Inventify
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-view="dashboard">
+                    <i class="ri-dashboard-line"></i> Dashboard
+                </li>
+                <li data-view="products">
+                    <i class="ri-price-tag-3-line"></i> Products
+                </li>
+                <li class="nav-title">OPERATIONS</li>
+                <li data-view="orders">
+                    <i class="ri-shopping-cart-line"></i> Orders
+                </li>
+                <li data-view="history">
+                    <i class="ri-history-line"></i> History
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar"><i class="ri-user-smile-line"></i></div>
+                    <div class="user-info">
+                        <span id="nav-username">User</span>
+                        <span id="nav-role" class="badge badge-primary">Role</span>
+                    </div>
+                </div>
+                <button id="logout-btn" class="btn btn-outline btn-block mt-3"><i class="ri-logout-box-line"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <header class="topbar glass-panel">
+                <h2 id="view-title">Dashboard</h2>
+                <div class="topbar-actions">
+                    <div class="search-bar">
+                        <i class="ri-search-line"></i>
+                        <input type="text" placeholder="Search SKU or Product...">
+                    </div>
+                    <button class="btn btn-icon"><i class="ri-notification-3-line"></i><span class="indicator"></span></button>
+                </div>
+            </header>
+
+            <!-- Dynamic View Container -->
+            <div id="view-container">
+                <!-- Views get injected here by app.js -->
+            </div>
+            
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="theme-toggle" title="Toggle Dark Mode"><i class="ri-moon-line"></i></button>
+
+    <!-- Scripts -->
+    <script src="js/api.js?v=8"></script>
+    <script src="js/auth.js?v=8"></script>
+    <script src="js/views.js?v=8"></script>
+    <script src="js/app.js?v=8"></script>
+</body>
+</html>
