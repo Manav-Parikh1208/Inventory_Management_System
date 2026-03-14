@@ -1,4 +1,4 @@
-# Core Inventory Management System (IMS)
+# Inventify - Inventory Management System (IMS)
 
 A modern, full-stack inventory management system built with Spring Boot, MySQL, and a responsive web frontend. This project provides a robust platform for managing warehouse operations, tracking products, and monitoring stock levels in real-time.
 
@@ -54,4 +54,5 @@ The application will be available at `http://localhost:8080`.
 ## 👥 Contributors
 
 - **Author**: Manav Parikh
-- **Project Name**: Core Inventory Manager
+- **Project Name**: Inventify
+- 
